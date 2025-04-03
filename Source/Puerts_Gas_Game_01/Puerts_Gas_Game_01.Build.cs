@@ -8,7 +8,7 @@ public class Puerts_Gas_Game_01 : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore" });
+		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore","Puerts","JsEnv" });
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
 
