@@ -23,5 +23,16 @@ export class BP_Puerts_Test implements BP_Puerts_Test {
         )
     }
     
+    Ts_Debug(){
+        UE.KismetSystemLibrary.PrintString(
+            this.GetWorld(),
+            "蓝图调用TS代码测试!",
+            true,
+            true,
+            UE.LinearColor.Yellow,
+            5.0
+        )
+    }
+    
 
 }
