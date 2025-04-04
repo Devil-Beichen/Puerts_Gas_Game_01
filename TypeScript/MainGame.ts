@@ -2,6 +2,9 @@ import * as UE from "ue";
 import {argv} from "puerts";
 
 import "./Blueprints/BP_Puerts_Test"
+import "./Blueprints/Character/BP_BaseBaseCharacter"
+import "./Blueprints/Character/Player/BP_Player"
+import "./Blueprints/Gameplay/BP_PlayerController"
 
 console.log("Hello, TypeScript!");
 

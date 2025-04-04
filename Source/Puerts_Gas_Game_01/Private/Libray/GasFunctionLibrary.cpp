@@ -2,3 +2,7 @@
 
 
 #include "Library/GasFunctionLibrary.h"
+
+void UGasFunctionLibrary::EmptyFunction()
+{
+}

@@ -11,6 +11,7 @@ public class Puerts_Gas_Game_01 : ModuleRules
 		PublicDependencyModuleNames.AddRange(new string[]
 		{
 			"Core", "CoreUObject", "Engine", "InputCore",
+			"EnhancedInput",
 			"Puerts", "JsEnv",
 			"GameplayAbilities", "GameplayTags", "GameplayTasks"
 		});

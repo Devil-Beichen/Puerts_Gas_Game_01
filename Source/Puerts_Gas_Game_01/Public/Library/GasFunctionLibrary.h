@@ -13,4 +13,9 @@ UCLASS()
 class PUERTS_GAS_GAME_01_API UGasFunctionLibrary : public UBlueprintFunctionLibrary
 {
 	GENERATED_BODY()
+
+public:
+	// 一个空函数
+	UFUNCTION(BlueprintCallable, Category="GasFunctionLibrary")
+	static void EmptyFunction();
 };
