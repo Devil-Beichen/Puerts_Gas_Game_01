@@ -29,5 +29,5 @@ class PUERTS_GAS_GAME_01_API IGasInterface
 public:
 	// 获取ASC组件
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
-	 UAbilitySystemComponent* GetAbilitySystemComponent() const;
+	UAbilitySystemComponent* GetAbilitySystemComponent() const;
 };
