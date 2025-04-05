@@ -28,6 +28,6 @@ class PUERTS_GAS_GAME_01_API IGasInterface
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
 	// 获取ASC组件
-	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
-	UAbilitySystemComponent* GetAbilitySystemComponent() const;
+	/*UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
+	UAbilitySystemComponent* GetAbilitySystemComponent() const;*/
 };

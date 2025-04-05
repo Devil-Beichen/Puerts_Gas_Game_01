@@ -27,16 +27,6 @@ void ABaseCharacter::BeginPlay()
 	}
 }
 
-// 获取技能系统
-TObjectPtr<UAbilitySystemComponent> ABaseCharacter::GetAbilitySystemComponent_Implementation() const
-{
-	if (AbilitySystem)
-	{
-		return AbilitySystem;
-	}
-	return nullptr;
-}
-
 // 获取技能信息
 FGameplayAbilityInfo ABaseCharacter::GetAbilityInfo(const TSubclassOf<UBaseGameplayAbility> AbilityClass, const int Level) const
 {

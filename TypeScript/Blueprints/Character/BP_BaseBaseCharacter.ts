@@ -1,5 +1,6 @@
 ﻿import * as UE from "ue";
 import mixin from "../../mixin";
+import {$Nullable, $ref, $Ref} from "puerts";
 
 // 资产路径
 const AssetPath = "/Game/Blueprints/Character/BP_BaseBaseCharacter.BP_BaseBaseCharacter_C";
@@ -11,26 +12,116 @@ export interface BP_BaseBaseCharacter extends UE.Game.Blueprints.Character.BP_Ba
 // 创建一个继承ts的本体类    implements   实现类型提示
 @mixin(AssetPath)
 export class BP_BaseBaseCharacter implements BP_BaseBaseCharacter {
+
     ReceiveBeginPlay() {
-        /*UE.KismetSystemLibrary.PrintString(
-            this.GetWorld(),
-            `你好这是一条来自于 ${this.GetName()}的打印信息 `,
-            true,
-            true,
-            UE.LinearColor.Green,
-            5.0
-        )*/
+
         // 获取动画实例
         this.ABP_Sinbi = this.Mesh.GetAnimInstance() as UE.Game.Blueprints.Character.Animations.ABP_Sinbi.ABP_Sinbi_C
-        
+
+        this.InitAbility()
+        // 绑定碰撞检测
+        this.DamageBox.OnComponentBeginOverlap.Add((...args) => this.OnOverlap(...args))
+
         // this.HPChange.Add((...args)=>this.HPChangeEvent(...args))
-        this.HPChange.Add(this.HPChangeEvent)
+        this.HPChange.Add((...args) => this.HPChangeEvent(...args))
 
     }
 
 
     // 血量变化函数
-   protected HPChangeEvent(Value: number) {
+    protected HPChangeEvent(Value: number) {
+        UE.KismetSystemLibrary.PrintString(
+            this,
+            `${this.GetName()} 的剩余血量 ：${Value} `,
+            true,
+            true,
+            UE.LinearColor.Yellow,
+            5.0
+        )
 
+        /* this.Attribute.AttributeName = "HP"
+         this.Attribute.Attribute = "/Script/Puerts_Gas_Game_01.BaseAttributeSet:HP"
+ 
+         console.log(`${this.Attribute.AttributeName}... ${this.Attribute.Attribute}`)
+         let bSuccess: $Ref<boolean> = $ref(false)
+ 
+         let outValue = UE.AbilitySystemBlueprintLibrary.GetFloatAttributeFromAbilitySystemComponent(
+             UE.AbilitySystemBlueprintLibrary.GetAbilitySystemComponent(this),
+             this.Attribute,
+             bSuccess
+         )
+ 
+         UE.KismetSystemLibrary.PrintString(
+             this,
+             `${this.GetName()}还有 ：${outValue} 血`,
+             true,
+             true,
+             UE.LinearColor.Green,
+             5.0
+         )*/
     }
+
+    // 开启伤害
+    OpenDamage() {
+        this.DamageBox.SetCollisionEnabled(UE.ECollisionEnabled.QueryOnly)
+    }
+
+    // 关闭伤害
+    EndDamage() {
+        this.DamageBox.SetCollisionEnabled(UE.ECollisionEnabled.NoCollision)
+        // 清空数组
+        this.AttackActors.Empty()
+    }
+
+    // 碰撞检测
+    OnOverlap(OverlappedComponent: $Nullable<UE.PrimitiveComponent>, OtherActor: $Nullable<UE.Actor>, OtherComp: $Nullable<UE.PrimitiveComponent>, OtherBodyIndex: number, bFromSweep: boolean, SweepResult: UE.HitResult) {
+        if (OtherActor != this) {
+            let HitChatacter = OtherActor as UE.Game.Blueprints.Character.BP_BaseBaseCharacter.BP_BaseBaseCharacter_C
+            if (!this.AttackActors.Contains(HitChatacter)) {
+                UE.KismetSystemLibrary.PrintString(
+                    this.GetWorld(),
+                    `我是${this.GetName()}.. 我命中了 ==》 ${HitChatacter.GetName()}`,
+                    true,
+                    true,
+                    UE.LinearColor.Red,
+                    5.0
+                )
+                this.AttackActors.Add(HitChatacter)
+
+                // 普攻命中Tag
+                let MeleeHitTag = new UE.GameplayTag()
+                MeleeHitTag.TagName = ("Ability.Melee.HitEvent")
+                // 创建游戏玩法事件数据
+                let GameplayEventData = new UE.GameplayEventData()
+                GameplayEventData.EventTag = MeleeHitTag
+                GameplayEventData.Instigator = this
+                GameplayEventData.Target = HitChatacter
+
+                UE.AbilitySystemBlueprintLibrary.SendGameplayEventToActor(this, MeleeHitTag, GameplayEventData)
+            }
+        }
+    }
+
+    // 初始化技能
+    protected
+
+    InitAbility() {
+        const GasNum = this.GAS.Num()
+        for (let i = 0; i < GasNum; i++) {
+            if (this.GAS.Get(i)) {
+                this.AbilitySystem.K2_GiveAbility(this.GAS.Get(i))
+            }
+        }
+    }
+
+    // 激活技能
+    ActivateAbility(AbilityTag
+                    :
+                    UE.GameplayTag
+    ) {
+        console.log(AbilityTag.TagName.toString())
+        let GameplayTagContatiner = UE.BlueprintGameplayTagLibrary.MakeGameplayTagContainerFromTag(AbilityTag as UE.GameplayTag)
+        UE.AbilitySystemBlueprintLibrary.GetAbilitySystemComponent(this).TryActivateAbilitiesByTag(GameplayTagContatiner, true)
+    }
+
 }

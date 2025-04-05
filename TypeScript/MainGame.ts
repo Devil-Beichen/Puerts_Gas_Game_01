@@ -5,6 +5,7 @@ import "./Blueprints/BP_Puerts_Test"
 import "./Blueprints/Character/BP_BaseBaseCharacter"
 import "./Blueprints/Character/Player/BP_Player"
 import "./Blueprints/Gameplay/BP_PlayerController"
+import "./Blueprints/Ability/00Melee/GA_Melee"
 
 console.log("Hello, TypeScript!");
 

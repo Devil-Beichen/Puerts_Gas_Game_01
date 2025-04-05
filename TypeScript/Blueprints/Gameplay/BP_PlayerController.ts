@@ -12,9 +12,14 @@ export interface BP_PlayerController extends UE.Game.Blueprints.Gameplay.BP_Play
 @mixin(AssetPath)
 export class BP_PlayerController implements BP_PlayerController {
     ReceiveBeginPlay() {
-        this.BP_Player = UE.GameplayStatics.GetPlayerCharacter(this,0) as UE.Game.Blueprints.Character.Player.BP_Player.BP_Player_C
-        UE.GameplayStatics.GetPlayerCameraManager(this,0).ViewPitchMin = -65
-        UE.GameplayStatics.GetPlayerCameraManager(this,0).ViewPitchMax = 25
-        
+        this.BP_Player = UE.GameplayStatics.GetPlayerCharacter(this, 0) as UE.Game.Blueprints.Character.Player.BP_Player.BP_Player_C
+        UE.GameplayStatics.GetPlayerCameraManager(this, 0).ViewPitchMin = -65
+        UE.GameplayStatics.GetPlayerCameraManager(this, 0).ViewPitchMax = 25
+
+    }
+
+    // 普通攻击
+    Melee() {
+        if (this.BP_Player) this.BP_Player.ActivateAbility(this.MeleeTag)
     }
 }

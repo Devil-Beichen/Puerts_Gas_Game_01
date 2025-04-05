@@ -15,7 +15,6 @@ const IMC_Default = UE.InputMappingContext.Load("/Game/Blueprints/Input/IMC_Defa
 export interface BP_Player extends UE.Game.Blueprints.Character.Player.BP_Player.BP_Player_C {
 }
 
-
 // 创建一个继承ts的本体类    implements   实现类型提示
 @mixin(AssetPath)
 export class BP_Player extends BP_BaseBaseCharacter implements BP_Player {
@@ -27,24 +26,13 @@ export class BP_Player extends BP_BaseBaseCharacter implements BP_Player {
         this.BP_PlayerController = UE.GameplayStatics.GetPlayerController(this, 0) as UE.Game.Blueprints.Gameplay.BP_PlayerController.BP_PlayerController_C
 
         if (this.BP_PlayerController) {
-            /*UE.KismetSystemLibrary.PrintString(this,
-                `${this.BP_PlayerController.GetName()} `,
-                true,
-                true,
-                UE.LinearColor.Yellow,
-                5.0
-            )*/
-
 
             // 获取增强输入子系统
             const EnhancedInputSubsystem = UE.SubsystemBlueprintLibrary.GetLocalPlayerSubSystemFromPlayerController(this.BP_PlayerController, UE.EnhancedInputLocalPlayerSubsystem.StaticClass()) as UE.EnhancedInputLocalPlayerSubsystem;
             if (EnhancedInputSubsystem) {
                 EnhancedInputSubsystem.AddMappingContext(IMC_Default, 0);
             }
-
         }
-
-
     }
 
 

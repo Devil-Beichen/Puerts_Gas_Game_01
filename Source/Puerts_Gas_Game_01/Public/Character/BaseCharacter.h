@@ -3,7 +3,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GasInterface.h"
 #include "GameFramework/Character.h"
 #include "BaseCharacter.generated.h"
 
@@ -19,15 +18,12 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAttributeChanged, float, Value);
  * 基础角色
  */
 UCLASS()
-class PUERTS_GAS_GAME_01_API ABaseCharacter : public ACharacter, public IGasInterface
+class PUERTS_GAS_GAME_01_API ABaseCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
 public:
 	ABaseCharacter();
-
-	// 获取技能系统
-	virtual TObjectPtr<UAbilitySystemComponent> GetAbilitySystemComponent_Implementation() const;
 
 	// 获取技能信息
 	UFUNCTION(BlueprintPure, Category="AbilitySystem")

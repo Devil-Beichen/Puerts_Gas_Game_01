@@ -4,7 +4,6 @@
 #include "Abilitys/BaseGameplayAbility.h"
 
 #include "AbilitySystemBlueprintLibrary.h"
-#include "GasInterface.h"
 #include "Abilitys/BaseAttributeSet.h"
 
 // 获取技能信息
@@ -54,9 +53,10 @@ bool UBaseGameplayAbility::IsSatisfyCost() const
 {
 	// 判断是是否拥有技能系统组件
 	// if (const AActor* OwningActor = GetOwningActorFromActorInfo(); OwningActor && OwningActor->GetClass()->ImplementsInterface(UGameInstance::StaticClass()))
-	if (const AActor* OwningActor = GetOwningActorFromActorInfo(); const IGasInterface* GasInterface = Cast<IGasInterface>(OwningActor))
+	if ( AActor* OwningActor = GetOwningActorFromActorInfo())
 	{
-		if (const UAbilitySystemComponent* AbilitySystemComponent = GasInterface->GetAbilitySystemComponent())
+		
+		if (UAbilitySystemComponent* AbilitySystemComponent = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(OwningActor))
 		{
 			const FGameplayAbilityInfo ReturnValue = GetAbilityInfo(0);
 
