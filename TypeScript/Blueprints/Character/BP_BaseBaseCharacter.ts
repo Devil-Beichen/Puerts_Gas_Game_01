@@ -42,6 +42,9 @@ export class BP_BaseBaseCharacter implements BP_BaseBaseCharacter {
             BaseRegenTag.TagName = ("Ability.BaseRegen")
 
             this.AbilitySystem.RemoveActiveEffectsWithTags(this.GetAbilityTag(BaseRegenTag))
+            
+            // 死亡时关闭碰撞检测
+            this.CapsuleComponent.SetCollisionResponseToChannel(UE.ECollisionChannel.ECC_Pawn,UE.ECollisionResponse.ECR_Ignore)
         }
 
         /*UE.KismetSystemLibrary.PrintString(

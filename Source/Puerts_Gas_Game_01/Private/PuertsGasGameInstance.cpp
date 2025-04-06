@@ -6,14 +6,20 @@
 void UPuertsGasGameInstance::OnStart()
 {
 	Super::OnStart();
+}
+
+void UPuertsGasGameInstance::Init()
+{
+	Super::Init();
+
 	/**
-	 * 根据调试模式初始化游戏脚本环境，并启动脚本。
-	 * 
-	 * 该函数根据 `bDebugMode` 和 `bWaitForDebugger` 标志决定如何初始化 `GameScript` 对象。
-	 * 如果 `bDebugMode` 为真，则创建一个带有调试功能的 `puerts::FJsEnv` 实例，并可选地等待调试器连接。
-	 * 如果 `bDebugMode` 为假，则创建一个普通的 `puerts::FJsEnv` 实例。
-	 * 最后，函数会启动脚本，并传递必要的参数。
-	 */
+ * 根据调试模式初始化游戏脚本环境，并启动脚本。
+ * 
+ * 该函数根据 `bDebugMode` 和 `bWaitForDebugger` 标志决定如何初始化 `GameScript` 对象。
+ * 如果 `bDebugMode` 为真，则创建一个带有调试功能的 `puerts::FJsEnv` 实例，并可选地等待调试器连接。
+ * 如果 `bDebugMode` 为假，则创建一个普通的 `puerts::FJsEnv` 实例。
+ * 最后，函数会启动脚本，并传递必要的参数。
+ */
 
 	if (bDebugMode)
 	{
@@ -43,11 +49,6 @@ void UPuertsGasGameInstance::OnStart()
 
 	// 启动脚本，指定入口模块为 "MainGame"，并传递参数
 	GameScript->Start(TEXT("MainGame"), Arguments);
-}
-
-void UPuertsGasGameInstance::Init()
-{
-	Super::Init();
 }
 
 void UPuertsGasGameInstance::Shutdown()

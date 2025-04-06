@@ -11,6 +11,7 @@ const AssetPath = "/Game/Blueprints/Character/Player/BP_Player.BP_Player_C";
 // 输入映射上下文
 const IMC_Default = UE.InputMappingContext.Load("/Game/Blueprints/Input/IMC_Default.IMC_Default")
 
+// 基础回复类
 const GA_BaseRegenClass = UE.Class.Load("/Game/Blueprints/Ability/BaseRegen/GA_BaseRegen.GA_BaseRegen_C")
 
 // 创建一个继承ts类（或者其他类）的接口（用来类型提示）
@@ -39,14 +40,6 @@ export class BP_Player extends BP_BaseBaseCharacter implements BP_Player {
         if (GA_BaseRegenClass) {
             this.AbilitySystem.K2_GiveAbilityAndActivateOnce(GA_BaseRegenClass)
         }
-        UE.KismetSystemLibrary.PrintString(
-            this,
-            `${this.GetName()} 在Ts执行了开始节点 `,
-            true,
-            true,
-            UE.LinearColor.Yellow,
-            5.0
-        )
     }
 
     protected HPChangeEvent(Value: number) {
