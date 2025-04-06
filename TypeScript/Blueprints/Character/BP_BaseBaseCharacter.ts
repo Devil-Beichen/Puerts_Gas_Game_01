@@ -136,7 +136,6 @@ export class BP_BaseBaseCharacter implements BP_BaseBaseCharacter {
         // 死亡时无法激活技能
         if (this.Dead) return
         
-        console.log(AbilityTag.TagName.toString())
         UE.AbilitySystemBlueprintLibrary.GetAbilitySystemComponent(this).TryActivateAbilitiesByTag(this.GetAbilityTag(AbilityTag), true)
     }
 

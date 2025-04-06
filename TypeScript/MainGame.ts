@@ -11,6 +11,8 @@ import "./Blueprints/Ability/00Melee/GA_Melee"
 import "./Blueprints/Ability/BaseRegen/GA_BaseRegen"
 
 // AI部分引用
+import "./Blueprints/Character/Enemys/BP_Enemy"
+import "./Blueprints/Character/Enemys/UMG/UMG_EnemyBay"
 import "./Blueprints/Character/Enemys/BP_AIController"
 import "./Blueprints/Character/Enemys/AI/BTT_FindPlayer"
 import "./Blueprints/Character/Enemys/AI/BTT_MeleeAttack"

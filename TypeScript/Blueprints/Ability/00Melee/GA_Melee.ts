@@ -27,12 +27,11 @@ export class GA_Melee implements GA_Melee {
         this.K2_CommitAbilityCooldown()
 
         // 随机选择起始动画片段
-        const StartSection: string = UE.KismetMathLibrary.RandomInteger(2).toString()
+        let StartSection = UE.KismetMathLibrary.RandomInteger(2).toString()
 
-        console.log(StartSection)
 
         // 创建播放动画任务
-        let PlayeMeleeMontage = UE.AbilityTask_PlayMontageAndWait.CreatePlayMontageAndWaitProxy(this, "PlayMeleeMontage", MA_Melee, 1, StartSection)
+        let PlayeMeleeMontage = UE.AbilityTask_PlayMontageAndWait.CreatePlayMontageAndWaitProxy(this, "PlayMeleeMontage", MA_Melee, 1, StartSection);
         // 绑定事件
         PlayeMeleeMontage.OnCompleted.Add(() => this.PlayMeleeComplete())
         PlayeMeleeMontage.OnInterrupted.Add(() => this.PlayMeleeComplete())
@@ -54,13 +53,13 @@ export class GA_Melee implements GA_Melee {
 
     // 播放动画完成
     PlayMeleeComplete() {
-        console.log("攻击完成")
+       
         this.K2_EndAbility()
     }
 
     // 命中事件
     HitTarget(Payload: UE.GameplayEventData) {
         let MeleeDamageClass = UE.Class.Load("/Game/Blueprints/Ability/00Melee/GE_Melee_Damage.GE_Melee_Damage_C")
-        this.BP_ApplyGameplayEffectToTarget(UE.AbilitySystemBlueprintLibrary.AbilityTargetDataFromActor(Payload.Target), MeleeDamageClass, UE.KismetMathLibrary.RandomIntegerInRange(0,3))
+        this.BP_ApplyGameplayEffectToTarget(UE.AbilitySystemBlueprintLibrary.AbilityTargetDataFromActor(Payload.Target), MeleeDamageClass, UE.KismetMathLibrary.RandomIntegerInRange(0, 3))
     }
 }
