@@ -20,6 +20,9 @@ export class BP_PlayerController implements BP_PlayerController {
 
     // 普通攻击
     Melee() {
-        if (this.BP_Player) this.BP_Player.ActivateAbility(this.MeleeTag)
+        if (this.BP_Player) {
+            const MeleeTag = new UE.GameplayTag("Ability.Melee")
+            this.BP_Player.ActivateAbility(MeleeTag)
+        }
     }
 }

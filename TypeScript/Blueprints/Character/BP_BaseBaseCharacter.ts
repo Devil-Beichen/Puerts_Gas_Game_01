@@ -22,24 +22,38 @@ export class BP_BaseBaseCharacter implements BP_BaseBaseCharacter {
         // 绑定碰撞检测
         this.DamageBox.OnComponentBeginOverlap.Add((...args) => this.OnOverlap(...args))
 
-        // this.HPChange.Add((...args)=>this.HPChangeEvent(...args))
+        /**
+         * 绑定属性变化事件
+         */
         this.HPChange.Add((...args) => this.HPChangeEvent(...args))
+        this.MPChange.Add((...args) => this.MPChangeEvent(...args))
+        this.SPChange.Add((...args) => this.SPChangeEvent(...args))
 
     }
 
 
     // 血量变化函数
     protected HPChangeEvent(Value: number) {
-        UE.KismetSystemLibrary.PrintString(
-            this,
-            `${this.GetName()} 的剩余血量 ：${Value} `,
-            true,
-            true,
-            UE.LinearColor.Yellow,
-            5.0
-        )
+        if (Value <= 0) {
+            this.ABP_Sinbi.Die = true
+            this.Dead = true
 
-        /* this.Attribute.AttributeName = "HP"
+            let BaseRegenTag = new UE.GameplayTag
+            BaseRegenTag.TagName = ("Ability.BaseRegen")
+
+            this.AbilitySystem.RemoveActiveEffectsWithTags(this.GetAbilityTag(BaseRegenTag))
+        }
+
+        /*UE.KismetSystemLibrary.PrintString(
+                 this,
+                 `${this.GetName()} 的剩余血量 ：${Value} `,
+                 true,
+                 true,
+                 UE.LinearColor.Yellow,
+                 5.0
+             )
+
+         this.Attribute.AttributeName = "HP"
          this.Attribute.Attribute = "/Script/Puerts_Gas_Game_01.BaseAttributeSet:HP"
  
          console.log(`${this.Attribute.AttributeName}... ${this.Attribute.Attribute}`)
@@ -49,16 +63,16 @@ export class BP_BaseBaseCharacter implements BP_BaseBaseCharacter {
              UE.AbilitySystemBlueprintLibrary.GetAbilitySystemComponent(this),
              this.Attribute,
              bSuccess
-         )
- 
-         UE.KismetSystemLibrary.PrintString(
-             this,
-             `${this.GetName()}还有 ：${outValue} 血`,
-             true,
-             true,
-             UE.LinearColor.Green,
-             5.0
          )*/
+
+    }
+
+    // 蓝量变化函数
+    protected MPChangeEvent(Value: number) {
+    }
+
+    // 能量变化函数
+    protected SPChangeEvent(Value: number) {
     }
 
     // 开启伤害
@@ -78,14 +92,15 @@ export class BP_BaseBaseCharacter implements BP_BaseBaseCharacter {
         if (OtherActor != this) {
             let HitChatacter = OtherActor as UE.Game.Blueprints.Character.BP_BaseBaseCharacter.BP_BaseBaseCharacter_C
             if (!this.AttackActors.Contains(HitChatacter)) {
-                UE.KismetSystemLibrary.PrintString(
-                    this.GetWorld(),
-                    `我是${this.GetName()}.. 我命中了 ==》 ${HitChatacter.GetName()}`,
-                    true,
-                    true,
-                    UE.LinearColor.Red,
-                    5.0
-                )
+
+                /* UE.KismetSystemLibrary.PrintString(
+                     this.GetWorld(),
+                     `我是${this.GetName()}.. 我命中了 ==》 ${HitChatacter.GetName()}`,
+                     true,
+                     true,
+                     UE.LinearColor.Red,
+                     5.0
+                 )*/
                 this.AttackActors.Add(HitChatacter)
 
                 // 普攻命中Tag
@@ -103,9 +118,7 @@ export class BP_BaseBaseCharacter implements BP_BaseBaseCharacter {
     }
 
     // 初始化技能
-    protected
-
-    InitAbility() {
+    protected InitAbility() {
         const GasNum = this.GAS.Num()
         for (let i = 0; i < GasNum; i++) {
             if (this.GAS.Get(i)) {
@@ -115,13 +128,19 @@ export class BP_BaseBaseCharacter implements BP_BaseBaseCharacter {
     }
 
     // 激活技能
-    ActivateAbility(AbilityTag
-                    :
-                    UE.GameplayTag
-    ) {
+    ActivateAbility(AbilityTag: UE.GameplayTag) {
+        
+        // 死亡时无法激活技能
+        if (this.Dead) return
+        
         console.log(AbilityTag.TagName.toString())
-        let GameplayTagContatiner = UE.BlueprintGameplayTagLibrary.MakeGameplayTagContainerFromTag(AbilityTag as UE.GameplayTag)
-        UE.AbilitySystemBlueprintLibrary.GetAbilitySystemComponent(this).TryActivateAbilitiesByTag(GameplayTagContatiner, true)
+        UE.AbilitySystemBlueprintLibrary.GetAbilitySystemComponent(this).TryActivateAbilitiesByTag(this.GetAbilityTag(AbilityTag), true)
     }
+
+    // 根据传入的GameplayTag获取GAS使用的Tag
+    GetAbilityTag(AbilityTag: UE.GameplayTag): UE.GameplayTagContainer {
+        return UE.BlueprintGameplayTagLibrary.MakeGameplayTagContainerFromTag(AbilityTag as UE.GameplayTag)
+    }
+
 
 }

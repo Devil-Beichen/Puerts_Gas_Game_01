@@ -5,7 +5,16 @@ import "./Blueprints/BP_Puerts_Test"
 import "./Blueprints/Character/BP_BaseBaseCharacter"
 import "./Blueprints/Character/Player/BP_Player"
 import "./Blueprints/Gameplay/BP_PlayerController"
+
+// GAS模块引入
 import "./Blueprints/Ability/00Melee/GA_Melee"
+import "./Blueprints/Ability/BaseRegen/GA_BaseRegen"
+
+// AI部分引用
+import "./Blueprints/Character/Enemys/BP_AIController"
+import "./Blueprints/Character/Enemys/AI/BTT_FindPlayer"
+import "./Blueprints/Character/Enemys/AI/BTT_MeleeAttack"
+import "./Blueprints/Character/Enemys/AI/BTS_CheckDead"
 
 console.log("Hello, TypeScript!");
 

@@ -61,6 +61,6 @@ export class GA_Melee implements GA_Melee {
     // 命中事件
     HitTarget(Payload: UE.GameplayEventData) {
         let MeleeDamageClass = UE.Class.Load("/Game/Blueprints/Ability/00Melee/GE_Melee_Damage.GE_Melee_Damage_C")
-        this.BP_ApplyGameplayEffectToTarget(UE.AbilitySystemBlueprintLibrary.AbilityTargetDataFromActor(Payload.Target), MeleeDamageClass, 1)
+        this.BP_ApplyGameplayEffectToTarget(UE.AbilitySystemBlueprintLibrary.AbilityTargetDataFromActor(Payload.Target), MeleeDamageClass, UE.KismetMathLibrary.RandomIntegerInRange(0,3))
     }
 }

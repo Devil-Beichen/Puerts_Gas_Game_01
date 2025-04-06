@@ -46,9 +46,11 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
-
-private:
+	
 	// 技能系统
 	UPROPERTY(VisibleAnywhere, Category="AbilitySystem")
 	TObjectPtr<UAbilitySystemComponent> AbilitySystem;
+
+private:
+	
 };

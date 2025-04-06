@@ -11,6 +11,8 @@ const AssetPath = "/Game/Blueprints/Character/Player/BP_Player.BP_Player_C";
 // 输入映射上下文
 const IMC_Default = UE.InputMappingContext.Load("/Game/Blueprints/Input/IMC_Default.IMC_Default")
 
+const GA_BaseRegenClass = UE.Class.Load("/Game/Blueprints/Ability/BaseRegen/GA_BaseRegen.GA_BaseRegen_C")
+
 // 创建一个继承ts类（或者其他类）的接口（用来类型提示）
 export interface BP_Player extends UE.Game.Blueprints.Character.Player.BP_Player.BP_Player_C {
 }
@@ -26,12 +28,25 @@ export class BP_Player extends BP_BaseBaseCharacter implements BP_Player {
         this.BP_PlayerController = UE.GameplayStatics.GetPlayerController(this, 0) as UE.Game.Blueprints.Gameplay.BP_PlayerController.BP_PlayerController_C
 
         if (this.BP_PlayerController) {
-
             // 获取增强输入子系统
             const EnhancedInputSubsystem = UE.SubsystemBlueprintLibrary.GetLocalPlayerSubSystemFromPlayerController(this.BP_PlayerController, UE.EnhancedInputLocalPlayerSubsystem.StaticClass()) as UE.EnhancedInputLocalPlayerSubsystem;
             if (EnhancedInputSubsystem) {
                 EnhancedInputSubsystem.AddMappingContext(IMC_Default, 0);
             }
+        }
+
+        // 给予技能
+        if (GA_BaseRegenClass) {
+            this.AbilitySystem.K2_GiveAbilityAndActivateOnce(GA_BaseRegenClass)
+        }
+
+    }
+
+    protected HPChangeEvent(Value: number) {
+        super.HPChangeEvent(Value);
+        if (this.Dead)
+        {
+            this.DisableInput(this.BP_PlayerController)
         }
     }
 

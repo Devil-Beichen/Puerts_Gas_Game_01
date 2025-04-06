@@ -17,11 +17,11 @@ void UBaseAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectMo
 		FString AttributeName = Data.EvaluatedData.Attribute.GetUProperty()->GetName();
 
 		// 血量限制
-		if (AttributeName == "Health")
+		if (AttributeName == "HP")
 		{
 			SetHP(FMath::Clamp(GetHP(), 0.f, GetMaxHP()));
 		}
-		/*if (AttributeName == "MaxHealth")
+		/*if (AttributeName == "MaxHP")
 		{
 			SetMaxHP(FMath::Clamp(GetMaxHP(), 0.f, GetMaxHP()));
 		}*/
