@@ -39,7 +39,14 @@ export class BP_Player extends BP_BaseBaseCharacter implements BP_Player {
         if (GA_BaseRegenClass) {
             this.AbilitySystem.K2_GiveAbilityAndActivateOnce(GA_BaseRegenClass)
         }
-
+        UE.KismetSystemLibrary.PrintString(
+            this,
+            `${this.GetName()} 在Ts执行了开始节点 `,
+            true,
+            true,
+            UE.LinearColor.Yellow,
+            5.0
+        )
     }
 
     protected HPChangeEvent(Value: number) {

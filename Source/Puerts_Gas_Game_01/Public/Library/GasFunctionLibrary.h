@@ -2,8 +2,7 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
-#include "AutomationBlueprintFunctionLibrary.h"
+#include "Kismet/BlueprintFunctionLibrary.h"
 #include "GasFunctionLibrary.generated.h"
 
 /**
