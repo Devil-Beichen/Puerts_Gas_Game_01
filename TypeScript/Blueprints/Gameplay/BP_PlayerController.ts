@@ -4,6 +4,9 @@ import mixin from "../../mixin";
 // 资产路径
 const AssetPath = "/Game/Blueprints/Gameplay/BP_PlayerController.BP_PlayerController_C";
 
+// UI类
+const MainUIClass = UE.Class.Load("/Game/Blueprints/Character/Player/UMG/UMG_MainUI.UMG_MainUI_C")
+
 // 创建一个继承ts类（或者其他类）的接口（用来类型提示）
 export interface BP_PlayerController extends UE.Game.Blueprints.Gameplay.BP_PlayerController.BP_PlayerController_C {
 }
@@ -15,7 +18,11 @@ export class BP_PlayerController implements BP_PlayerController {
         this.BP_Player = UE.GameplayStatics.GetPlayerCharacter(this, 0) as UE.Game.Blueprints.Character.Player.BP_Player.BP_Player_C
         UE.GameplayStatics.GetPlayerCameraManager(this, 0).ViewPitchMin = -65
         UE.GameplayStatics.GetPlayerCameraManager(this, 0).ViewPitchMax = 25
-
+        // 创建UI
+        this.MainUI = UE.WidgetBlueprintLibrary.Create(this, MainUIClass, this) as UE.Game.Blueprints.Character.Player.UMG.UMG_MainUI.UMG_MainUI_C
+        if (this.MainUI) {
+            this.MainUI.AddToViewport()
+        }
     }
 
     // 普通攻击

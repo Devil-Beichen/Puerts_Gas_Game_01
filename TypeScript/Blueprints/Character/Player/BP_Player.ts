@@ -42,10 +42,26 @@ export class BP_Player extends BP_BaseBaseCharacter implements BP_Player {
         }
     }
 
+    // 初始化技能
+    protected InitAbility() {
+        const GasNum = this.GAS.Num()
+        for (let i = 0; i < GasNum; i++) {
+            if (this.GAS.Get(i)) {
+                this.AbilitySystem.K2_GiveAbility(this.GAS.Get(i))
+                if (i > 0) {
+                    this.BP_PlayerController.MainUI.AllAbilitySlot.Get(i - 1).InitInfo(this.GetAbilityInfo(this.GAS.Get(i), 0))
+                }
+            }
+        }
+    }
+
+    // 血量变化事件
     protected HPChangeEvent(Value: number) {
         super.HPChangeEvent(Value);
-        if (this.Dead)
-        {
+        let Pre = Value / UE.AbilitySystemBlueprintLibrary.GetFloatAttributeFromAbilitySystemComponent(this.AbilitySystem, new UE.GameplayAttribute("MaxHP", "/Script/Puerts_Gas_Game_01.BaseAttributeSet:MaxHP", null), null)
+        this.BP_PlayerController.MainUI.HPAttributeBar.SetProgress(Pre)
+
+        if (this.Dead) {
             this.DisableInput(this.BP_PlayerController)
         }
     }

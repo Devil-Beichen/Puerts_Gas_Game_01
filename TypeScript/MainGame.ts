@@ -33,3 +33,6 @@ import "./Blueprints/Character/Enemys/BP_AIController"
 import "./Blueprints/Character/Enemys/AI/BTT_FindPlayer"
 import "./Blueprints/Character/Enemys/AI/BTT_MeleeAttack"
 import "./Blueprints/Character/Enemys/AI/BTS_CheckDead"
+import "./Blueprints/Character/Player/UMG/UMG_AbilitySlot";
+import "./Blueprints/Character/Player/UMG/UMG_AttributeBar";
+import "./Blueprints/Character/Player/UMG/UMG_MainUI";
