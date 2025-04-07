@@ -25,7 +25,7 @@ watcher.on('add', (filePath) => {
     console.log(`Detected new file: ${filePath}`); // 调试日志
 
     const relativePath = path.relative(__dirname, filePath);
-    const importStatement = `import "./${relativePath.replace(/\\/g, '/')}";\n`;
+    const importStatement = `import "./${relativePath.replace(/\\/g, '/').replace(/\.ts$/, "")}";\n`;
 
     // 读取MainGame.ts文件内容
     fs.readFile(MainGameFile, 'utf8', (err, data) => {
