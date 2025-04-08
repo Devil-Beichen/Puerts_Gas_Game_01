@@ -33,7 +33,6 @@ export class UMG_AbilitySlot implements UMG_AbilitySlot {
         this.CD = AbilityInfo.CD
         this.AbilityClass = AbilityInfo.AbilityClass
         this.AbilityImage.SetBrushFromMaterial(AbilityInfo.IconMaterial)
-        console.log(`初始化 `)
     }
 
     // 开始UI的CD
@@ -48,8 +47,18 @@ export class UMG_AbilitySlot implements UMG_AbilitySlot {
         if (this.IsDuringCD) {
             this.CD_Current = UE.KismetMathLibrary.FClamp(this.CD_Current - DeltaTime, 0, this.CD)
             if (this.CD_Current > 0) {
-
-                this.CD_Text.Text = this.CD_Current.toString()
+                
+                this.CD_Text.SetText(UE.KismetTextLibrary.Conv_DoubleToText(
+                    this.CD_Current,
+                    UE.ERoundingMode.HalfToEven,
+                    false,
+                    true,
+                    1,
+                    324,
+                    0,
+                    1)
+                )
+                
                 this.AbilityImage.GetDynamicMaterial().SetScalarParameterValue("Pre", UE.KismetMathLibrary.FClamp((1 - this.CD_Current / this.CD), 0, 1))
 
             } else {

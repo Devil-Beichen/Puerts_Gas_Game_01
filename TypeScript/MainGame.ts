@@ -36,3 +36,6 @@ import "./Blueprints/Character/Enemys/AI/BTS_CheckDead"
 import "./Blueprints/Character/Player/UMG/UMG_AbilitySlot";
 import "./Blueprints/Character/Player/UMG/UMG_AttributeBar";
 import "./Blueprints/Character/Player/UMG/UMG_MainUI";
+import "./Blueprints/Ability/BP_BaseGameplayAbility";
+import "./Blueprints/Ability/01HPRegen/GC_HPRegen_Cue";
+import "./Blueprints/Ability/01HPRegen/GA_HPRegen";

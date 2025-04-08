@@ -32,4 +32,13 @@ export class BP_PlayerController implements BP_PlayerController {
             this.BP_Player.ActivateAbility(MeleeTag)
         }
     }
+
+    // 回血技能
+    HPRegen() {
+
+        if (this.BP_Player) {
+            const MeleeTag = new UE.GameplayTag("Ability.HPRegen")
+            this.BP_Player.ActivateAbility(MeleeTag)
+        }
+    }
 }

@@ -23,11 +23,11 @@ export interface BP_Player extends UE.Game.Blueprints.Character.Player.BP_Player
 export class BP_Player extends BP_BaseBaseCharacter implements BP_Player {
 
     ReceiveBeginPlay() {
+        this.BP_PlayerController = UE.GameplayStatics.GetPlayerController(this, 0) as UE.Game.Blueprints.Gameplay.BP_PlayerController.BP_PlayerController_C
+        
         super.ReceiveBeginPlay()
         this.CameraLocation.SetPlayRate(1 / 0.15)
-
-        this.BP_PlayerController = UE.GameplayStatics.GetPlayerController(this, 0) as UE.Game.Blueprints.Gameplay.BP_PlayerController.BP_PlayerController_C
-
+        
         if (this.BP_PlayerController) {
             // 获取增强输入子系统
             const EnhancedInputSubsystem = UE.SubsystemBlueprintLibrary.GetLocalPlayerSubSystemFromPlayerController(this.BP_PlayerController, UE.EnhancedInputLocalPlayerSubsystem.StaticClass()) as UE.EnhancedInputLocalPlayerSubsystem;
@@ -64,6 +64,18 @@ export class BP_Player extends BP_BaseBaseCharacter implements BP_Player {
         if (this.Dead) {
             this.DisableInput(this.BP_PlayerController)
         }
+    }
+
+    // 蓝量变化事件
+    protected MPChangeEvent(Value: number) {
+        let Pre = Value / UE.AbilitySystemBlueprintLibrary.GetFloatAttributeFromAbilitySystemComponent(this.AbilitySystem, new UE.GameplayAttribute("MaxMP", "/Script/Puerts_Gas_Game_01.BaseAttributeSet:MaxMP", null), null)
+        this.BP_PlayerController.MainUI.MPAttributeBar.SetProgress(Pre)
+    }
+
+    // 能量变化
+    protected SPChangeEvent(Value: number) {
+        let Pre = Value / UE.AbilitySystemBlueprintLibrary.GetFloatAttributeFromAbilitySystemComponent(this.AbilitySystem, new UE.GameplayAttribute("MaxSP", "/Script/Puerts_Gas_Game_01.BaseAttributeSet:MaxSP", null), null)
+        this.BP_PlayerController.MainUI.SPAttributeBar.SetProgress(Pre)
     }
 
 
