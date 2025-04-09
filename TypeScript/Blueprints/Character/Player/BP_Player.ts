@@ -3,6 +3,7 @@
 import mixin from "../../../mixin";
 
 import {BP_BaseBaseCharacter} from "../BP_BaseBaseCharacter";
+import {$Nullable} from "puerts";
 
 
 // 资产路径
@@ -24,10 +25,10 @@ export class BP_Player extends BP_BaseBaseCharacter implements BP_Player {
 
     ReceiveBeginPlay() {
         this.BP_PlayerController = UE.GameplayStatics.GetPlayerController(this, 0) as UE.Game.Blueprints.Gameplay.BP_PlayerController.BP_PlayerController_C
-        
+
         super.ReceiveBeginPlay()
         this.CameraLocation.SetPlayRate(1 / 0.15)
-        
+
         if (this.BP_PlayerController) {
             // 获取增强输入子系统
             const EnhancedInputSubsystem = UE.SubsystemBlueprintLibrary.GetLocalPlayerSubSystemFromPlayerController(this.BP_PlayerController, UE.EnhancedInputLocalPlayerSubsystem.StaticClass()) as UE.EnhancedInputLocalPlayerSubsystem;
@@ -40,6 +41,8 @@ export class BP_Player extends BP_BaseBaseCharacter implements BP_Player {
         if (GA_BaseRegenClass) {
             this.AbilitySystem.K2_GiveAbilityAndActivateOnce(GA_BaseRegenClass)
         }
+
+        this.Sphere.OnComponentBeginOverlap.Add((...args) => this.SphereOnOverlap(...args))
     }
 
     // 初始化技能
@@ -52,6 +55,33 @@ export class BP_Player extends BP_BaseBaseCharacter implements BP_Player {
                     this.BP_PlayerController.MainUI.AllAbilitySlot.Get(i - 1).InitInfo(this.GetAbilityInfo(this.GAS.Get(i), 0))
                 }
             }
+        }
+    }
+
+    // 设置摩擦力为0
+    SetFrictionToZero(Zero: boolean) {
+        super.SetFrictionToZero(Zero);
+        this.Sphere.SetSphereRadius(Zero ? 80 : 32, true)
+        this.SpringArm.bDoCollisionTest = !Zero
+        this.AttackActors.Empty()
+    }
+
+    // 球体重叠事件
+    SphereOnOverlap(OverlappedComponent: $Nullable<UE.PrimitiveComponent>, OtherActor: $Nullable<UE.Actor>, OtherComp: $Nullable<UE.PrimitiveComponent>, OtherBodyIndex: number, bFromSweep: boolean, SweepResult: UE.HitResult) {
+        let HitChatacter = OtherActor as UE.Game.Blueprints.Character.BP_BaseBaseCharacter.BP_BaseBaseCharacter_C
+        if (!this.AttackActors.Contains(HitChatacter) && HitChatacter != this) {
+
+            // 冲刺命中Tag
+            const DashHitTag = new UE.GameplayTag()
+            DashHitTag.TagName = ("Ability.Dash.HitEvent")
+            // 创建游戏玩法事件数据
+            let GameplayEventData = new UE.GameplayEventData()
+            GameplayEventData.EventTag = DashHitTag
+            GameplayEventData.Instigator = this
+            GameplayEventData.Target = HitChatacter
+            UE.AbilitySystemBlueprintLibrary.SendGameplayEventToActor(this, DashHitTag, GameplayEventData)
+
+            this.AttackActors.Add(HitChatacter)
         }
     }
 

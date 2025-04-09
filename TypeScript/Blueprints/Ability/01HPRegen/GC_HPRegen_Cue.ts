@@ -17,17 +17,17 @@ export interface GC_HPRegen_Cue extends UE.Game.Blueprints.Ability._01HPRegen.GC
 export class GC_HPRegen_Cue implements GC_HPRegen_Cue {
 
     WhileActive(MyTarget: $Nullable<UE.Actor>, Parameters: UE.GameplayCueParameters): boolean {
-        console.log("WhileActive")
+      
         if (this.HPRegen_FX) {
             UE.GameplayStatics.SpawnEmitterAtLocation(
                 this.GetWorld(),
                 this.HPRegen_FX, MyTarget.K2_GetActorLocation(),
                 new UE.Rotator(),
-                new UE.Vector(1,1,1),
+                new UE.Vector(1, 1, 1),
                 true,
                 UE.EPSCPoolMethod.ManualRelease,
                 true
-                )
+            )
         }
 
         // @ts-ignore

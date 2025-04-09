@@ -41,4 +41,13 @@ export class BP_PlayerController implements BP_PlayerController {
             this.BP_Player.ActivateAbility(MeleeTag)
         }
     }
+    
+    // 冲刺技能
+    Dash() {
+        if (this.BP_Player)
+        {
+            const DashTag = new UE.GameplayTag("Ability.Dash")
+            this.BP_Player.ActivateAbility(DashTag)
+        }
+    }
 }

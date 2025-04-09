@@ -7,6 +7,8 @@ import {$ref, $Ref} from "puerts";
 // 资产路径
 const AssetPath = "/Game/Blueprints/Character/Enemys/BP_Enemy.BP_Enemy_C";
 
+const MA_Stun = UE.Object.Load("/Game/Blueprints/Character/Animations/Montage/MA_Stun.MA_Stun") as UE.AnimMontage
+
 // 创建一个继承ts类（或者其他类）的接口（用来类型提示）
 export interface BP_Enemy extends UE.Game.Blueprints.Character.Enemys.BP_Enemy.BP_Enemy_C {
 }
@@ -35,10 +37,11 @@ export class BP_Enemy extends BP_BaseBaseCharacter implements BP_Enemy {
         super.HPChangeEvent(Value);
         if (this.Dead) {
             this.StopController()
-         UE.KismetSystemLibrary.K2_SetTimer(this,"DestroyBar",1.5,false)
+            UE.KismetSystemLibrary.K2_SetTimer(this, "DestroyBar", 1.5, false)
         }
     }
 
+    // 销毁血条
     DestroyBar() {
         this.Bar.K2_DestroyComponent(this)
     }
@@ -79,6 +82,16 @@ export class BP_Enemy extends BP_BaseBaseCharacter implements BP_Enemy {
 
             this.Bar.K2_SetWorldRotation(NewRotation, false, null, false)
         }
+    }
+
+    // 晕眩
+    Stun(StunDuration: number) {
+        this.StopController()
+        this.PlayAnimMontage(MA_Stun)
+
+        setTimeout(() => {
+            this.ResumeController()
+        }, StunDuration * 1000)
     }
 
 }

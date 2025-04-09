@@ -7,6 +7,8 @@ const AssetPath = "/Game/Blueprints/Ability/00Melee/GA_Melee.GA_Melee_C";
 
 const MA_Melee = UE.Object.Load("/Game/Blueprints/Character/Animations/Montage/MA_Melee.MA_Melee") as UE.AnimMontage
 
+let MeleeDamageClass = UE.Class.Load("/Game/Blueprints/Ability/00Melee/GE_Melee_Damage.GE_Melee_Damage_C")
+
 // 创建一个继承ts类（或者其他类）的接口（用来类型提示）
 export interface GA_Melee extends UE.Game.Blueprints.Ability._00Melee.GA_Melee.GA_Melee_C {
 }
@@ -18,7 +20,7 @@ export class GA_Melee implements GA_Melee {
     K2_ActivateAbility() {
         UE.KismetSystemLibrary.PrintString(
             this.GetWorld(),
-            `普通攻击按下`,
+            `${this.GetAvatarActorFromActorInfo().GetName()}->普通攻击按下`,
             true,
             true,
             UE.LinearColor.Green,
@@ -53,13 +55,13 @@ export class GA_Melee implements GA_Melee {
 
     // 播放动画完成
     PlayMeleeComplete() {
-       
+
         this.K2_EndAbility()
     }
 
     // 命中事件
     HitTarget(Payload: UE.GameplayEventData) {
-        let MeleeDamageClass = UE.Class.Load("/Game/Blueprints/Ability/00Melee/GE_Melee_Damage.GE_Melee_Damage_C")
+
         this.BP_ApplyGameplayEffectToTarget(UE.AbilitySystemBlueprintLibrary.AbilityTargetDataFromActor(Payload.Target), MeleeDamageClass, UE.KismetMathLibrary.RandomIntegerInRange(0, 3))
     }
 }

@@ -3,6 +3,15 @@ import {argv} from "puerts";
 
 console.log("Hello, TypeScript!");
 
+UE.KismetSystemLibrary.PrintString(
+    null,
+    `启动！！`,
+    true,
+    true,
+    UE.LinearColor.Green,
+    0.1
+)
+
 /* 获取游戏实例对象并执行类型断言
  * @param gameInstance - 通过参数管理器获取的PuertsGasGameInstance实例对象
  * @type {UE.PuertsGasGameInstance} - 显式类型断言确保符合游戏实例接口规范 */
@@ -39,3 +48,4 @@ import "./Blueprints/Character/Player/UMG/UMG_MainUI";
 import "./Blueprints/Ability/BP_BaseGameplayAbility";
 import "./Blueprints/Ability/01HPRegen/GC_HPRegen_Cue";
 import "./Blueprints/Ability/01HPRegen/GA_HPRegen";
+import "./Blueprints/Ability/02Dash/GA_Dash";

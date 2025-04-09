@@ -17,6 +17,7 @@ export interface GA_HPRegen extends UE.Game.Blueprints.Ability._01HPRegen.GA_HPR
 export class GA_HPRegen implements GA_HPRegen {
     K2_ActivateAbility() {
 
+        console.log(`${this.GetAvatarActorFromActorInfo().GetName()}->释放治疗技能`)
         this.K2_CommitAbility()
         this.BP_ApplyGameplayEffectToOwner(HPRegenValueCalss)
         this.StartUI_CD()

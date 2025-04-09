@@ -13,14 +13,17 @@ export interface BP_BaseBaseCharacter extends UE.Game.Blueprints.Character.BP_Ba
 @mixin(AssetPath)
 export class BP_BaseBaseCharacter implements BP_BaseBaseCharacter {
 
-    ReceiveBeginPlay() {
+    // 初始摩擦力
+    InitFriction: number;
 
+    ReceiveBeginPlay() {
+        this.InitFriction = this.CharacterMovement.GroundFriction
         // 获取动画实例
         this.ABP_Sinbi = this.Mesh.GetAnimInstance() as UE.Game.Blueprints.Character.Animations.ABP_Sinbi.ABP_Sinbi_C
 
         this.InitAbility()
         // 绑定碰撞检测
-        this.DamageBox.OnComponentBeginOverlap.Add((...args) => this.OnOverlap(...args))
+        this.DamageBox.OnComponentBeginOverlap.Add((...args) => this.WeaponOnOverlap(...args))
 
         /**
          * 绑定属性变化事件
@@ -42,9 +45,9 @@ export class BP_BaseBaseCharacter implements BP_BaseBaseCharacter {
             BaseRegenTag.TagName = ("Ability.BaseRegen")
 
             this.AbilitySystem.RemoveActiveEffectsWithTags(this.GetAbilityTag(BaseRegenTag))
-            
+
             // 死亡时关闭碰撞检测
-            this.CapsuleComponent.SetCollisionResponseToChannel(UE.ECollisionChannel.ECC_Pawn,UE.ECollisionResponse.ECR_Ignore)
+            this.CapsuleComponent.SetCollisionResponseToChannel(UE.ECollisionChannel.ECC_Pawn, UE.ECollisionResponse.ECR_Ignore)
         }
 
         /*UE.KismetSystemLibrary.PrintString(
@@ -70,6 +73,19 @@ export class BP_BaseBaseCharacter implements BP_BaseBaseCharacter {
 
     }
 
+    // 设置摩擦力为0并且设置对应碰撞
+    SetFrictionToZero(Zero: boolean) {
+        if (Zero) {
+            this.CharacterMovement.GroundFriction = 0
+            this.CapsuleComponent.SetCollisionResponseToChannel(UE.ECollisionChannel.ECC_Pawn, UE.ECollisionResponse.ECR_Ignore)
+            this.CapsuleComponent.SetCollisionResponseToChannel(UE.ECollisionChannel.ECC_Camera, UE.ECollisionResponse.ECR_Ignore)
+        } else {
+            this.CharacterMovement.GroundFriction = this.InitFriction
+            this.CapsuleComponent.SetCollisionResponseToChannel(UE.ECollisionChannel.ECC_Pawn, UE.ECollisionResponse.ECR_Block)
+            this.CapsuleComponent.SetCollisionResponseToChannel(UE.ECollisionChannel.ECC_Camera, UE.ECollisionResponse.ECR_Block)
+        }
+    }
+
     // 蓝量变化函数
     protected MPChangeEvent(Value: number) {
     }
@@ -90,8 +106,8 @@ export class BP_BaseBaseCharacter implements BP_BaseBaseCharacter {
         this.AttackActors.Empty()
     }
 
-    // 碰撞检测
-    OnOverlap(OverlappedComponent: $Nullable<UE.PrimitiveComponent>, OtherActor: $Nullable<UE.Actor>, OtherComp: $Nullable<UE.PrimitiveComponent>, OtherBodyIndex: number, bFromSweep: boolean, SweepResult: UE.HitResult) {
+    // 武器碰撞检测
+    WeaponOnOverlap(OverlappedComponent: $Nullable<UE.PrimitiveComponent>, OtherActor: $Nullable<UE.Actor>, OtherComp: $Nullable<UE.PrimitiveComponent>, OtherBodyIndex: number, bFromSweep: boolean, SweepResult: UE.HitResult) {
         if (OtherActor != this) {
             let HitChatacter = OtherActor as UE.Game.Blueprints.Character.BP_BaseBaseCharacter.BP_BaseBaseCharacter_C
             if (!this.AttackActors.Contains(HitChatacter)) {
@@ -120,6 +136,17 @@ export class BP_BaseBaseCharacter implements BP_BaseBaseCharacter {
         }
     }
 
+    // 推力
+    PushAwaly(Force: number, Time: number, ImpulseDirection: UE.Vector) {
+        this.SetFrictionToZero(true)
+        const Impulse = new UE.Vector(ImpulseDirection.X * Force, ImpulseDirection.Y * Force, ImpulseDirection.Z * Force)
+        this.CharacterMovement.AddImpulse(Impulse, true)
+        // 设置时间
+        setTimeout(() => {
+            this.SetFrictionToZero(false)
+        }, Time * 1000)
+    }
+
     // 初始化技能
     protected InitAbility() {
         const GasNum = this.GAS.Num()
@@ -132,10 +159,10 @@ export class BP_BaseBaseCharacter implements BP_BaseBaseCharacter {
 
     // 激活技能
     ActivateAbility(AbilityTag: UE.GameplayTag) {
-        
+
         // 死亡时无法激活技能
         if (this.Dead) return
-        
+
         UE.AbilitySystemBlueprintLibrary.GetAbilitySystemComponent(this).TryActivateAbilitiesByTag(this.GetAbilityTag(AbilityTag), true)
     }
 
