@@ -1,7 +1,7 @@
 ﻿import * as UE from "ue";
 import mixin from "../../../mixin";
-import {BP_BaseBaseCharacter} from "../BP_BaseBaseCharacter";
-import {$Delegate, GameplayAttribute} from "ue";
+import {BP_BaseCharacter} from "../BP_BaseCharacter";
+import {GameplayAttribute} from "ue";
 import {$ref, $Ref} from "puerts";
 
 // 资产路径
@@ -15,7 +15,7 @@ export interface BP_Enemy extends UE.Game.Blueprints.Character.Enemys.BP_Enemy.B
 
 // 创建一个继承ts的本体类    implements   实现类型提示
 @mixin(AssetPath)
-export class BP_Enemy extends BP_BaseBaseCharacter implements BP_Enemy {
+export class BP_Enemy extends BP_BaseCharacter implements BP_Enemy {
 
     UMGEnemyBar: UE.Game.Blueprints.Character.Enemys.UMG.UMG_EnemyBay.UMG_EnemyBay_C;
 

@@ -1,6 +1,5 @@
 ﻿import * as UE from "ue";
 import mixin from "../../mixin";
-import {TArray} from "ue";
 
 // 资产路径
 const AssetPath = "/Game/Blueprints/Ability/BP_BaseGameplayAbility.BP_BaseGameplayAbility_C";

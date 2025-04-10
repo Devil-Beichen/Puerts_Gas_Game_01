@@ -15,7 +15,7 @@ export class BTS_CheckDead implements BTS_CheckDead {
 
     // 激活
     ReceiveActivationAI(OwnerController: $Nullable<UE.AIController>, ControlledPawn: $Nullable<UE.Pawn>) {
-        this.Character = ControlledPawn as UE.Game.Blueprints.Character.BP_BaseBaseCharacter.BP_BaseBaseCharacter_C
+        this.Character = ControlledPawn as UE.Game.Blueprints.Character.BP_BaseCharacter.BP_BaseCharacter_C
     }
 
     // 循环

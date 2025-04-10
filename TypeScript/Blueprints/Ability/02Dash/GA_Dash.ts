@@ -17,11 +17,11 @@ export interface GA_Dash extends UE.Game.Blueprints.Ability._02Dash.GA_Dash.GA_D
 @mixin(AssetPath)
 export class GA_Dash implements GA_Dash {
 
-    Character: UE.Game.Blueprints.Character.BP_BaseBaseCharacter.BP_BaseBaseCharacter_C;
+    Character: UE.Game.Blueprints.Character.BP_BaseCharacter.BP_BaseCharacter_C;
 
     K2_ActivateAbility() {
         console.log(`${this.GetAvatarActorFromActorInfo().GetName()}->释放冲刺技能`)
-        this.Character = this.GetAvatarActorFromActorInfo() as UE.Game.Blueprints.Character.BP_BaseBaseCharacter.BP_BaseBaseCharacter_C
+        this.Character = this.GetAvatarActorFromActorInfo() as UE.Game.Blueprints.Character.BP_BaseCharacter.BP_BaseCharacter_C
         this.HitCall()
         this.K2_CommitAbility()
         this.StartUI_CD()
@@ -48,7 +48,7 @@ export class GA_Dash implements GA_Dash {
 
         this.BP_ApplyGameplayEffectToTarget(UE.AbilitySystemBlueprintLibrary.AbilityTargetDataFromActor(Payload.Target), DashDamageClass, 1, 1)
 
-        let HitCharacter = Payload.Target as UE.Game.Blueprints.Character.BP_BaseBaseCharacter.BP_BaseBaseCharacter_C
+        let HitCharacter = Payload.Target as UE.Game.Blueprints.Character.BP_BaseCharacter.BP_BaseCharacter_C
         if (HitCharacter) {
             HitCharacter.Stun(1)
             let StartLocation = HitCharacter.K2_GetActorLocation()

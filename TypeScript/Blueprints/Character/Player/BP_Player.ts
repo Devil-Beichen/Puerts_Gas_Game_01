@@ -2,7 +2,7 @@
 
 import mixin from "../../../mixin";
 
-import {BP_BaseBaseCharacter} from "../BP_BaseBaseCharacter";
+import {BP_BaseCharacter} from "../BP_BaseCharacter";
 import {$Nullable} from "puerts";
 
 
@@ -21,7 +21,7 @@ export interface BP_Player extends UE.Game.Blueprints.Character.Player.BP_Player
 
 // 创建一个继承ts的本体类    implements   实现类型提示
 @mixin(AssetPath)
-export class BP_Player extends BP_BaseBaseCharacter implements BP_Player {
+export class BP_Player extends BP_BaseCharacter implements BP_Player {
 
     ReceiveBeginPlay() {
         this.BP_PlayerController = UE.GameplayStatics.GetPlayerController(this, 0) as UE.Game.Blueprints.Gameplay.BP_PlayerController.BP_PlayerController_C
@@ -68,7 +68,7 @@ export class BP_Player extends BP_BaseBaseCharacter implements BP_Player {
 
     // 球体重叠事件
     SphereOnOverlap(OverlappedComponent: $Nullable<UE.PrimitiveComponent>, OtherActor: $Nullable<UE.Actor>, OtherComp: $Nullable<UE.PrimitiveComponent>, OtherBodyIndex: number, bFromSweep: boolean, SweepResult: UE.HitResult) {
-        let HitChatacter = OtherActor as UE.Game.Blueprints.Character.BP_BaseBaseCharacter.BP_BaseBaseCharacter_C
+        let HitChatacter = OtherActor as UE.Game.Blueprints.Character.BP_BaseCharacter.BP_BaseCharacter_C
         if (!this.AttackActors.Contains(HitChatacter) && HitChatacter != this) {
 
             // 冲刺命中Tag

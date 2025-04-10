@@ -15,7 +15,7 @@ export interface BTT_FindPlayer extends UE.Game.Blueprints.Character.Enemys.AI.B
 // 创建一个继承ts的本体类    implements   实现类型提示
 @mixin(AssetPath)
 export class BTT_FindPlayer implements BTT_FindPlayer {
-    TempPlayer: UE.Game.Blueprints.Character.BP_BaseBaseCharacter.BP_BaseBaseCharacter_C;
+    TempPlayer: UE.Game.Blueprints.Character.BP_BaseCharacter.BP_BaseCharacter_C;
 
     ReceiveExecuteAI(OwnerController: $Nullable<UE.AIController>, ControlledPawn: $Nullable<UE.Pawn>) {
 

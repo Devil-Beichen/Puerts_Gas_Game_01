@@ -14,7 +14,7 @@ export interface BTT_MeleeAttack extends UE.Game.Blueprints.Character.Enemys.AI.
 @mixin(AssetPath)
 export class BTT_MeleeAttack implements BTT_MeleeAttack {
     ReceiveExecuteAI(OwnerController: $Nullable<UE.AIController>, ControlledPawn: $Nullable<UE.Pawn>) {
-        let Character = ControlledPawn as UE.Game.Blueprints.Character.BP_BaseBaseCharacter.BP_BaseBaseCharacter_C
+        let Character = ControlledPawn as UE.Game.Blueprints.Character.BP_BaseCharacter.BP_BaseCharacter_C
         if (Character) {
             // 获取普通攻击标签
             let MeleeTag = new UE.GameplayTag()
