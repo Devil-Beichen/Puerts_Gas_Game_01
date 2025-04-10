@@ -49,3 +49,5 @@ import "./Blueprints/Ability/BP_BaseGameplayAbility";
 import "./Blueprints/Ability/01HPRegen/GC_HPRegen_Cue";
 import "./Blueprints/Ability/01HPRegen/GA_HPRegen";
 import "./Blueprints/Ability/02Dash/GA_Dash";
+import "./Blueprints/Ability/03Laser/BP_LaserActor";
+import "./Blueprints/Ability/03Laser/GA_Laser";

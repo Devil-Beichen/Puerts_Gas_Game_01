@@ -27,8 +27,7 @@ export class GA_Dash implements GA_Dash {
         this.StartUI_CD()
         this.SetFrictionToZero(true)
         this.DashForward()
-
-
+        
         this.PlayMontage()
 
     }

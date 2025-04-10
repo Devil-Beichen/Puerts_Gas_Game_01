@@ -15,6 +15,9 @@ const IMC_Default = UE.InputMappingContext.Load("/Game/Blueprints/Input/IMC_Defa
 // 基础回复类
 const GA_BaseRegenClass = UE.Class.Load("/Game/Blueprints/Ability/BaseRegen/GA_BaseRegen.GA_BaseRegen_C")
 
+// 冲刺命中Tag
+const DashHitTag = new UE.GameplayTag("Ability.Dash.HitEvent")
+
 // 创建一个继承ts类（或者其他类）的接口（用来类型提示）
 export interface BP_Player extends UE.Game.Blueprints.Character.Player.BP_Player.BP_Player_C {
 }
@@ -23,11 +26,20 @@ export interface BP_Player extends UE.Game.Blueprints.Character.Player.BP_Player
 @mixin(AssetPath)
 export class BP_Player extends BP_BaseCharacter implements BP_Player {
 
+    // 相机开始位置
+    CameraStartLocation = new UE.Vector;
+    // 相机结束位置
+    CameraEndLocation = new UE.Vector(0, 0, 180);
+    // 相机开始旋转
+    CameraStartRotation = new UE.Rotator;
+    // 相机结束旋转
+    CameraEndRotation = new UE.Rotator(-17, 0, 0);
+
     ReceiveBeginPlay() {
         this.BP_PlayerController = UE.GameplayStatics.GetPlayerController(this, 0) as UE.Game.Blueprints.Gameplay.BP_PlayerController.BP_PlayerController_C
 
         super.ReceiveBeginPlay()
-        this.CameraLocation.SetPlayRate(1 / 0.15)
+        this.CameraLocation.SetPlayRate(1 / 0.25)
 
         if (this.BP_PlayerController) {
             // 获取增强输入子系统
@@ -71,10 +83,7 @@ export class BP_Player extends BP_BaseCharacter implements BP_Player {
         let HitChatacter = OtherActor as UE.Game.Blueprints.Character.BP_BaseCharacter.BP_BaseCharacter_C
         if (!this.AttackActors.Contains(HitChatacter) && HitChatacter != this) {
 
-            // 冲刺命中Tag
-            const DashHitTag = new UE.GameplayTag()
-            DashHitTag.TagName = ("Ability.Dash.HitEvent")
-            // 创建游戏玩法事件数据
+            // 创建游戏玩法事件数据进行广播
             let GameplayEventData = new UE.GameplayEventData()
             GameplayEventData.EventTag = DashHitTag
             GameplayEventData.Instigator = this
@@ -133,15 +142,19 @@ export class BP_Player extends BP_BaseCharacter implements BP_Player {
 
         if (Lock$) {
             this.CameraLocation.PlayFromStart()
+            this.CameraStartLocation = this.Camera.RelativeLocation
+            this.CameraStartRotation = this.Camera.RelativeRotation
         } else {
             this.CameraLocation.ReverseFromEnd()
+            this.CameraStartLocation = UE.Vector.ZeroVector
+            this.CameraStartRotation = UE.Rotator.ZeroRotator
         }
     }
 
     // 相机位置缓动
     CameraLocation__UpdateFunc() {
-        let NewLocation = UE.KismetMathLibrary.VLerp(new UE.Vector(0, 0, 0), new UE.Vector(0, 0, 180), this.CameraLocation_Time_E679C4044A332CE3891EBABC32FEC70C)
-        let NewRotation = UE.KismetMathLibrary.RLerp(new UE.Rotator(0, 0, 0), new UE.Rotator(-17, 0, 0), this.CameraLocation_Time_E679C4044A332CE3891EBABC32FEC70C, true)
+        let NewLocation = UE.KismetMathLibrary.VLerp(this.CameraStartLocation , new UE.Vector(0, 0, 180), this.CameraLocation_Time_E679C4044A332CE3891EBABC32FEC70C)
+        let NewRotation = UE.KismetMathLibrary.RLerp(this.CameraStartRotation, new UE.Rotator(-17, 0, 0), this.CameraLocation_Time_E679C4044A332CE3891EBABC32FEC70C, true)
         this.Camera.K2_SetRelativeLocationAndRotation(NewLocation, NewRotation, false, null, false)
     }
 }

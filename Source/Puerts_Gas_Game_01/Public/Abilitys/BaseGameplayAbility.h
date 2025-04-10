@@ -86,6 +86,6 @@ public:
 	FGameplayAbilityInfo GetAbilityInfo(const int Level) const;
 
 	// 判断是否满足消耗
-	UFUNCTION(BlueprintCallable, Category = "AbilityInfo")
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "AbilityInfo")
 	bool IsSatisfyCost() const;
 };

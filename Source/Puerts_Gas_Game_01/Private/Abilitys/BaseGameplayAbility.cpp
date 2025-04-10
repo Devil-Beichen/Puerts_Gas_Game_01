@@ -49,13 +49,12 @@ FGameplayAbilityInfo UBaseGameplayAbility::GetAbilityInfo(const int Level) const
 }
 
 // 判断是否满足消耗
-bool UBaseGameplayAbility::IsSatisfyCost() const
+bool UBaseGameplayAbility::IsSatisfyCost_Implementation() const
 {
 	// 判断是是否拥有技能系统组件
 	// if (const AActor* OwningActor = GetOwningActorFromActorInfo(); OwningActor && OwningActor->GetClass()->ImplementsInterface(UGameInstance::StaticClass()))
-	if ( AActor* OwningActor = GetOwningActorFromActorInfo())
+	if (AActor* OwningActor = GetOwningActorFromActorInfo())
 	{
-		
 		if (UAbilitySystemComponent* AbilitySystemComponent = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(OwningActor))
 		{
 			const FGameplayAbilityInfo ReturnValue = GetAbilityInfo(0);
