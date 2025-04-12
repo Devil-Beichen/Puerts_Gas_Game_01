@@ -5,6 +5,9 @@ import {$Nullable} from "puerts";
 // 资产路径
 const AssetPath = "/Game/Blueprints/Character/BP_BaseCharacter.BP_BaseCharacter_C";
 
+// 基础回复类
+const GA_BaseRegenClass = UE.Class.Load("/Game/Blueprints/Ability/BaseRegen/GA_BaseRegen.GA_BaseRegen_C")
+
 // 创建一个继承ts类（或者其他类）的接口（用来类型提示）
 export interface BP_BaseCharacter extends UE.Game.Blueprints.Character.BP_BaseCharacter.BP_BaseCharacter_C {
 }
@@ -31,6 +34,11 @@ export class BP_BaseCharacter implements BP_BaseCharacter {
         this.HPChange.Add((...args) => this.HPChangeEvent(...args))
         this.MPChange.Add((...args) => this.MPChangeEvent(...args))
         this.SPChange.Add((...args) => this.SPChangeEvent(...args))
+
+        // 给予技能
+        if (GA_BaseRegenClass) {
+            this.AbilitySystem.K2_GiveAbilityAndActivateOnce(GA_BaseRegenClass)
+        }
 
     }
 

@@ -6,17 +6,21 @@ import {BP_BaseCharacter} from "../BP_BaseCharacter";
 import {$Nullable} from "puerts";
 
 
+
 // 资产路径
 const AssetPath = "/Game/Blueprints/Character/Player/BP_Player.BP_Player_C";
 
 // 输入映射上下文
 const IMC_Default = UE.InputMappingContext.Load("/Game/Blueprints/Input/IMC_Default.IMC_Default")
 
-// 基础回复类
-const GA_BaseRegenClass = UE.Class.Load("/Game/Blueprints/Ability/BaseRegen/GA_BaseRegen.GA_BaseRegen_C")
-
 // 冲刺命中Tag
 const DashHitTag = new UE.GameplayTag("Ability.Dash.HitEvent")
+
+// 拉回Tag
+const PullBakTag = new UE.GameplayTag("Ability.FireBlast.PullBack")
+
+// 推走Tag
+const PushAwayTag = new UE.GameplayTag("Ability.FireBlast.PushAway")
 
 // 创建一个继承ts类（或者其他类）的接口（用来类型提示）
 export interface BP_Player extends UE.Game.Blueprints.Character.Player.BP_Player.BP_Player_C {
@@ -47,11 +51,6 @@ export class BP_Player extends BP_BaseCharacter implements BP_Player {
             if (EnhancedInputSubsystem) {
                 EnhancedInputSubsystem.AddMappingContext(IMC_Default, 0);
             }
-        }
-
-        // 给予技能
-        if (GA_BaseRegenClass) {
-            this.AbilitySystem.K2_GiveAbilityAndActivateOnce(GA_BaseRegenClass)
         }
 
         this.Sphere.OnComponentBeginOverlap.Add((...args) => this.SphereOnOverlap(...args))
@@ -153,8 +152,18 @@ export class BP_Player extends BP_BaseCharacter implements BP_Player {
 
     // 相机位置缓动
     CameraLocation__UpdateFunc() {
-        let NewLocation = UE.KismetMathLibrary.VLerp(this.CameraStartLocation , new UE.Vector(0, 0, 180), this.CameraLocation_Time_E679C4044A332CE3891EBABC32FEC70C)
+        let NewLocation = UE.KismetMathLibrary.VLerp(this.CameraStartLocation, new UE.Vector(0, 0, 180), this.CameraLocation_Time_E679C4044A332CE3891EBABC32FEC70C)
         let NewRotation = UE.KismetMathLibrary.RLerp(this.CameraStartRotation, new UE.Rotator(-17, 0, 0), this.CameraLocation_Time_E679C4044A332CE3891EBABC32FEC70C, true)
         this.Camera.K2_SetRelativeLocationAndRotation(NewLocation, NewRotation, false, null, false)
+    }
+
+    // 拉回
+    PullBack() {
+        UE.AbilitySystemBlueprintLibrary.SendGameplayEventToActor(this, PullBakTag, null)
+    }
+
+    // 推开
+    PushAway() {
+        UE.AbilitySystemBlueprintLibrary.SendGameplayEventToActor(this, PushAwayTag, null)
     }
 }

@@ -25,6 +25,9 @@ const LaserEndEventTag = new UE.GameplayTag("Ability.Laser.Cost.EndEvent")
 // 山崩地裂技能标签
 const Ground_BlastTag = new UE.GameplayTag("Ability.Ground_Blast")
 
+// 火球技能标签
+const FireBlastTag = new UE.GameplayTag("Ability.FireBlast")
+
 // 创建一个继承ts类（或者其他类）的接口（用来类型提示）
 export interface BP_PlayerController extends UE.Game.Blueprints.Gameplay.BP_PlayerController.BP_PlayerController_C {
 }
@@ -98,6 +101,12 @@ export class BP_PlayerController implements BP_PlayerController {
     Ground_Blast() {
         if (this.BP_Player && !this.BP_Player.IsBlastSkill) {
             this.BP_Player.ActivateAbility(Ground_BlastTag)
+        }
+    }
+
+    FireBlast() {
+        if (this.BP_Player) {
+            this.BP_Player.ActivateAbility(FireBlastTag)
         }
     }
 }
