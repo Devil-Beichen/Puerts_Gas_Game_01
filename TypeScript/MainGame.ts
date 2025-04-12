@@ -51,3 +51,5 @@ import "./Blueprints/Ability/01HPRegen/GA_HPRegen";
 import "./Blueprints/Ability/02Dash/GA_Dash";
 import "./Blueprints/Ability/03Laser/BP_LaserActor";
 import "./Blueprints/Ability/03Laser/GA_Laser";
+import "./Blueprints/Ability/04Ground_Blast/BP_GroundSelectTargetActor";
+import "./Blueprints/Ability/04Ground_Blast/GA_Ground_Blast";
